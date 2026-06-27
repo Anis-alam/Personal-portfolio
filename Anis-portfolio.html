@@ -2,996 +2,805 @@
 <html lang="en">
 
     <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Anis Alam · Creative Portfolio</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Anis Alam | Data Analyst</title>
         <link
-            href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
-            rel="stylesheet" />
-        <link rel="stylesheet" href="style.css" />
-    </head>
-
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+            rel="stylesheet">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+             </head>
     <body>
-        <!-- Ambient Light Effects -->
-        <div id="ambient-lights">
-            <div class="ambient-orb orb-1"></div>
-            <div class="ambient-orb orb-2"></div>
-            <div class="ambient-orb orb-3"></div>
-            <div class="ambient-orb orb-4"></div>
+        <!-- LOADING SCREEN -->
+        <div class="loader" id="loader">
+            <div class="loader-text">AA</div>
+            <div class="loader-bar">
+                <div class="loader-bar-inner"></div>
+            </div>
+            <div class="loader-percentage" id="loaderPercentage">0%</div>
         </div>
 
-        <!-- Video Background -->
-        <div id="video-bg">
-            <video id="vid0" src="/video/blackhole.mp4" muted playsinline loop
-                class="active"></video>
-            <video id="vid2" src="/video/galaxy.mp4" muted playsinline
-                loop></video>
-            <div id="video-overlay"></div>
+        <!-- CUSTOM CURSOR -->
+        <div class="custom-cursor" id="customCursor"></div>
+        <div class="cursor-dot" id="cursorDot"></div>
+
+        <!-- CURSOR GLOW -->
+        <div class="cursor-glow" id="cursorGlow"></div>
+
+        <!-- BACKGROUND EFFECTS -->
+        <div class="noise-overlay"></div>
+        <div class="grid-bg"></div>
+        <div class="aurora">
+            <div class="aurora-blob"></div>
+            <div class="aurora-blob"></div>
+            <div class="aurora-blob"></div>
         </div>
 
-        <!-- Video Indicator Dots -->
-        <div id="vid-dots">
-            <div class="vid-dot active"></div>
-            <div class="vid-dot"></div>
-        </div>
-
-        <!-- WebGL Canvases -->
-        <canvas id="bg-canvas"></canvas>
-        <canvas id="shoot-canvas"></canvas>
+        <!-- PARTICLES -->
         <canvas id="particles-canvas"></canvas>
-        <canvas id="aurora-canvas"></canvas>
 
-        <!-- Noise Texture Overlay -->
-        <div id="noise-overlay"></div>
-
-        <!-- Custom Cursor -->
-        <div id="cursor">
-            <div class="cursor-dot"></div>
-            <div class="cursor-glow"></div>
-        </div>
-        <div id="cursor-ring"></div>
-        <div id="cursor-trail"></div>
-
-        <!-- Magnetic Elements Container -->
-        <div id="magnetic-container"></div>
-
-        <!-- Navigation -->
-        <nav id="main-nav">
-            <a href="#hero" class="logo-mark" title="Anis Alam">
-                <span class="logo-text">AA</span>
-                <span class="logo-glow"></span>
-            </a>
+        <!-- NAVBAR -->
+        <nav class="navbar" id="navbar">
+            <a href="#hero" class="nav-logo">AA<span>.</span></a>
             <ul class="nav-links">
-                <li><a href="#about" data-text="About">About</a></li>
-                <li><a href="#skills" data-text="Skills">Skills</a></li>
-                <li><a href="#projects" data-text="Projects">Projects</a></li>
-                <li>
-                    <a href="#contact" class="nav-cta">
-                        <span class="cta-text">Hire Me</span>
-                        <span class="cta-shimmer"></span>
-                    </a>
-                </li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a
+                        href="file:///C:/Users/anisa/OneDrive/Desktop/ONLY%20RESUME/ANIS-DATA-ANALYST.pdf"
+                        class="nav-resume-btn">Resume</a></li>
             </ul>
-            <button class="nav-toggle" aria-label="Toggle Menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+            <div class="mobile-toggle" id="mobileToggle">
+                <span></span><span></span><span></span>
+            </div>
         </nav>
 
-        <!-- Progress Bar -->
-        <div id="scroll-progress">
-            <div class="progress-bar"></div>
-            <div class="progress-glow"></div>
+        <!-- MOBILE MENU -->
+        <div class="mobile-overlay" id="mobileOverlay"></div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#experience">Experience</a>
+            <a href="#education">Education</a>
+            <a href="#contact">Contact</a>
+            <button><a
+                    href="ANIS-DATA-ANALYST.pdf">Resume</a></button>
         </div>
 
-        <main>
-            <!-- Hero Section -->
-            <section id="hero">
-                <div class="hero-grid-bg"></div>
-                <div class="hero-particles"></div>
-
-                <div class="orb orb1"></div>
-                <div class="orb orb2"></div>
-                <div class="orb orb3"></div>
-                <div class="orb orb4"></div>
-
-                <div class="hero-content">
-                    <div class="hero-badge reveal">
-                        <span class="badge-dot"></span>
-                        <span class="badge-text">Available for
-                            opportunities</span>
+        <!-- HERO SECTION -->
+        <section class="hero" id="hero">
+            <div class="hero-content">
+                <div class="hero-left">
+                    <div class="hero-badge animate-on-scroll">
+                        <span class="dot"></span> Open to Opportunities
                     </div>
-
-                    <p class="hero-greeting reveal">Hey there, I'm</p>
-
-                    <div class="hero-name-container">
-                        <h1 class="hero-name-3d" id="hero-name">
-                            <span class="name-letter" data-letter="A">A</span>
-                            <span class="name-letter" data-letter="n">n</span>
-                            <span class="name-letter" data-letter="i">i</span>
-                            <span class="name-letter" data-letter="s">s</span>
-                            <span class="name-space">&nbsp;</span>
-                            <span class="name-letter" data-letter="A">A</span>
-                            <span class="name-letter" data-letter="l">l</span>
-                            <span class="name-letter" data-letter="a">a</span>
-                            <span class="name-letter" data-letter="m">m</span>
-                        </h1>
-                        <div class="name-reflection"></div>
-                    </div>
-
-                    <div class="hero-role reveal">
-                        <span class="role-prefix">I build</span>
-                        <span class="typed-container">
-                            <span class="typed-word" id="typed"></span>
-                            <span class="typed-cursor"></span>
-                        </span>
-                    </div>
-
-                    <p class="hero-desc reveal">
-                        <span class="desc-highlight">Data Analyst</span> &
-                        <span class="desc-highlight">Frontend Developer</span> —
-                        turning raw data into decisions and pixels into
-                        experiences.
+                    <p class="hero-greeting animate-on-scroll delay-1">Hello,
+                        I'm
                     </p>
+                    <h1 class="hero-name animate-on-scroll delay-2">
+                        <span class="gradient-text">Anis</span><br>Alam
+                    </h1>
+                    <div class="hero-roles animate-on-scroll delay-3">
+                        <span class="typed-text" id="typedText"></span>
+                        <span class="typed-cursor">|</span>
+                    </div>
+                    <p class="hero-description animate-on-scroll delay-4">
+                        Results-driven Data Analyst with 7+ months of hands-on
+                        experience in data cleaning, SQL-based analysis, Python
+                        scripting, and interactive dashboard development using
+                        Power BI and Excel. Delivering actionable business
+                        insights through data storytelling.
+                    </p>
+                    <div class="hero-stats animate-on-scroll delay-4">
+                        <div class="stat-item">
+                            <div class="stat-number" data-count="7">0</div>
+                            <div class="stat-label">Months Exp</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" data-count="4">0</div>
+                            <div class="stat-label">Projects</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" data-count="40">0</div>
+                            <div class="stat-label">% Time Saved</div>
+                        </div>
+                    </div>
+                    <div class="hero-buttons animate-on-scroll delay-5">
+                        <a href="#contact" class="btn btn-primary magnetic-btn">
+                            <i class="fas fa-paper-plane"></i> Get in Touch
+                        </a>
+                        <a href="#projects"
+                            class="btn btn-secondary magnetic-btn">
+                            <i class="fas fa-chart-bar"></i> View Projects
+                        </a>
+                    </div>
+                    <div class="hero-social animate-on-scroll delay-5">
+                        <a
+                            href="https://www.linkedin.com/in/anis-alam-214770232/"
+                            class="social-link" target="_blank"
+                            title="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://github.com/Anis-alam"
+                            class="social-link" target="_blank" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="mailto:anisalam39204@gmail.com"
+                            class="social-link" title="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="tel:+918252532381" class="social-link"
+                            title="Phone">
+                            <i class="fas fa-phone"></i>
+                        </a>
+                    </div>
+                </div>
 
-                    <div class="hero-cta reveal">
-                        <a href="#projects" class="btn-primary magnetic">
-                            <span class="btn-bg"></span>
-                            <span class="btn-text">View Projects</span>
-                            <span class="btn-icon">
-                                <svg viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <path d="M12 5v14M5 12l7 7 7-7" />
-                                </svg>
-                            </span>
-                            <span class="btn-shine"></span>
+                <div class="hero-right animate-on-scroll delay-3">
+                    <div class="hero-visual">
+                        <div class="hero-avatar-ring"></div>
+                        <div class="hero-avatar">
+                            <img src="img1.png" alt="Anis Alam - Profile Photo"
+                                class="profile-photo" id="profilePhoto"
+                                onerror="this.style.display='none'; document.getElementById('avatarInitials').classList.add('show');">
+                            <span class="hero-avatar-initials"
+                                id="avatarInitials">AA</span>
+                        </div>
+                        <div class="floating-badge badge-1">
+                            <i class="fas fa-chart-line"></i> Data Analyst
+                        </div>
+                        <div class="floating-badge badge-2">
+                            <i class="fas fa-database"></i> SQL Expert
+                        </div>
+                        <div class="floating-badge badge-3">
+                            <i class="fas fa-chart-pie"></i> Power BI Dev
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="about">
+            <div class="section-header animate-on-scroll">
+                <p class="section-label">// Get to Know Me</p>
+                <h2 class="section-title">About <span
+                        class="gradient-text">Me</span></h2>
+                <p class="section-subtitle">Passionate about transforming raw
+                    data into actionable business insights.</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p class="animate-on-scroll delay-1 from-left">
+                        I'm a Data Analyst based in <strong>Bengaluru,
+                            India</strong>, with 7+ months of hands-on
+                        experience in end-to-end data workflows including data
+                        cleaning, SQL-based analysis, Python scripting, and
+                        interactive dashboard development using Power BI and
+                        Excel.
+                    </p>
+                    <p class="animate-on-scroll delay-2 from-left">
+                        I've delivered impactful business dashboards and KPI
+                        tracking solutions — <strong>reducing manual reporting
+                            time by 40%</strong>, building <strong>interactive
+                            Power BI dashboards</strong> for revenue and profit
+                        tracking, and conducting <strong>EDA</strong> that
+                        directly informed sales and marketing strategies.
+                    </p>
+                    <p class="animate-on-scroll delay-3 from-left">
+                        Currently seeking an entry-level Data Analyst role where
+                        I can apply my skills to translate complex raw data into
+                        actionable business decisions that drive real impact.
+                    </p>
+                    <div class="about-highlight animate-on-scroll delay-4">
+                        <div class="highlight-card">
+                            <div class="number">40%</div>
+                            <div class="label">Reporting Time Saved</div>
+                        </div>
+                        <div class="highlight-card">
+                            <div class="number">4+</div>
+                            <div class="label">Projects Delivered</div>
+                        </div>
+                        <div class="highlight-card">
+                            <div class="number">7+</div>
+                            <div class="label">Months Experience</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-info">
+                    <div class="info-item animate-on-scroll delay-1 from-right">
+                        <i class="fas fa-user"></i>
+                        <div>
+                            <div class="info-label">Name</div>
+                            <div class="info-value">Anis Alam</div>
+                        </div>
+                    </div>
+                    <div class="info-item animate-on-scroll delay-2 from-right">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <div class="info-label">Location</div>
+                            <div class="info-value">Bengaluru, India</div>
+                        </div>
+                    </div>
+                    <div class="info-item animate-on-scroll delay-3 from-right">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <div class="info-label">Email</div>
+                            <div
+                                class="info-value">anisalam39204@gmail.com</div>
+                        </div>
+                    </div>
+                    <div class="info-item animate-on-scroll delay-4 from-right">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <div class="info-label">Phone</div>
+                            <div class="info-value">+91 8252532381</div>
+                        </div>
+                    </div>
+                    <div class="info-item animate-on-scroll delay-5 from-right">
+                        <i class="fas fa-graduation-cap"></i>
+                        <div>
+                            <div class="info-label">Degree</div>
+                            <div class="info-value">Bachelor of Computer
+                                Applications (BCA)</div>
+                        </div>
+                    </div>
+                    <div class="info-item animate-on-scroll delay-5 from-right">
+                        <i class="fas fa-briefcase"></i>
+                        <div>
+                            <div class="info-label">Experience</div>
+                            <div class="info-value">7+ Months (Data Analyst
+                                Intern)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS SECTION -->
+        <section id="skills">
+            <div class="section-header animate-on-scroll">
+                <p class="section-label">// What I Work With</p>
+                <h2 class="section-title">Technical <span
+                        class="gradient-text">Skills</span></h2>
+                <p class="section-subtitle">Technologies and tools I use to turn
+                    data into insights.</p>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-category animate-on-scroll delay-1 scale-in">
+                    <div class="skill-category-header">
+                        <div class="skill-category-icon purple"><i
+                                class="fas fa-code"></i></div>
+                        <h3 class="skill-category-title">Languages</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Python (Pandas,
+                            Matplotlib)</span>
+                        <span class="skill-tag">SQL</span>
+                        <span class="skill-tag">Basic JavaScript</span>
+                    </div>
+                </div>
+                <div class="skill-category animate-on-scroll delay-2 scale-in">
+                    <div class="skill-category-header">
+                        <div class="skill-category-icon green"><i
+                                class="fas fa-chart-bar"></i></div>
+                        <h3 class="skill-category-title">Data Analysis</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Data Cleaning</span>
+                        <span class="skill-tag">EDA</span>
+                        <span class="skill-tag">Descriptive Statistics</span>
+                        <span class="skill-tag">KPI Analysis</span>
+                        <span class="skill-tag">Data Transformation</span>
+                    </div>
+                </div>
+                <div class="skill-category animate-on-scroll delay-3 scale-in">
+                    <div class="skill-category-header">
+                        <div class="skill-category-icon red"><i
+                                class="fas fa-database"></i></div>
+                        <h3 class="skill-category-title">SQL</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">CRUD Operations</span>
+                        <span class="skill-tag">Joins & Subqueries</span>
+                        <span class="skill-tag">Aggregate Functions</span>
+                        <span class="skill-tag">Window Functions</span>
+                        <span class="skill-tag">Views</span>
+                        <span class="skill-tag">CTEs</span>
+                        <span class="skill-tag">Normalization</span>
+                    </div>
+                </div>
+                <div class="skill-category animate-on-scroll delay-4 scale-in">
+                    <div class="skill-category-header">
+                        <div class="skill-category-icon blue"><i
+                                class="fas fa-file-excel"></i></div>
+                        <h3 class="skill-category-title">Excel</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">VLOOKUP</span>
+                        <span class="skill-tag">XLOOKUP</span>
+                        <span class="skill-tag">HLOOKUP</span>
+                        <span class="skill-tag">Pivot Tables</span>
+                        <span class="skill-tag">Power Query</span>
+                        <span class="skill-tag">Charts</span>
+                        <span class="skill-tag">Data Visualization</span>
+                    </div>
+                </div>
+                <div class="skill-category animate-on-scroll delay-5 scale-in">
+                    <div class="skill-category-header">
+                        <div class="skill-category-icon orange"><i
+                                class="fas fa-chart-pie"></i></div>
+                        <h3 class="skill-category-title">Power BI</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Data Import</span>
+                        <span class="skill-tag">DAX Measures</span>
+                        <span class="skill-tag">Interactive Reports</span>
+                        <span class="skill-tag">Dashboards</span>
+                        <span class="skill-tag">Data Modeling</span>
+                    </div>
+                </div>
+                <div class="skill-category animate-on-scroll delay-5 scale-in">
+                    <div class="skill-category-header">
+                        <div class="skill-category-icon yellow"><i
+                                class="fas fa-tools"></i></div>
+                        <h3 class="skill-category-title">Tools & Soft Skills
+                        </h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Git & GitHub</span>
+                        <span class="skill-tag">Jupyter Notebook</span>
+                        <span class="skill-tag">VS Code</span>
+                        <span class="skill-tag">Power BI Desktop</span>
+                        <span class="skill-tag">Analytical Thinking</span>
+                        <span class="skill-tag">Data Storytelling</span>
+                        <span class="skill-tag">Problem Solving</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTS SECTION -->
+        <section id="projects">
+            <div class="section-header animate-on-scroll">
+                <p class="section-label">// What I've Built</p>
+                <h2 class="section-title">Featured <span
+                        class="gradient-text">Projects</span></h2>
+                <p class="section-subtitle">Data analytics projects with
+                    real-world business impact.</p>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card animate-on-scroll delay-1 tilt-card">
+                    <div class="project-card-image">
+                        <i class="fas fa-hospital project-icon-large"></i>
+                    </div>
+                    <div class="project-card-body tilt-inner">
+                        <h3 class="project-card-title">
+                            <a href="https://github.com/Anis-alam"
+                                target="_blank">Healthcare Power BI
+                                Dashboard</a>
+                            <span class="arrow"><i
+                                    class="fas fa-arrow-up-right-from-square"></i></span>
+                        </h3>
+                        <div class="project-card-desc">
+                            <ul>
+                                <li>Built a comprehensive Power BI dashboard
+                                    analyzing healthcare data including patient
+                                    admissions, treatment outcomes, and hospital
+                                    resource utilization</li>
+                                <li>Applied DAX measures for dynamic KPIs —
+                                    average length of stay, readmission rates,
+                                    and bed occupancy rates</li>
+                                <li>Integrated data from multiple sources (CSV,
+                                    Excel, SQL) with data modeling for
+                                    cross-report filtering and drill-down
+                                    analysis
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="project-card-tech">
+                            <span class="project-tech-tag">Power BI</span>
+                            <span class="project-tech-tag">DAX</span>
+                            <span class="project-tech-tag">SQL</span>
+                            <span class="project-tech-tag">Data Modeling</span>
+                            <span class="project-tech-tag">Excel</span>
+                        </div>
+                        <div class="project-card-links">
+                            <a href="https://github.com/Anis-alam"
+                                class="project-link" target="_blank">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                            <button class="project-link case-study-btn"
+                                onclick="openCaseStudy('project1')">
+                                <i class="fas fa-book-open"></i> Case Study
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card animate-on-scroll delay-2 tilt-card">
+                    <div class="project-card-image">
+                        <i class="fas fa-users project-icon-large"></i>
+                    </div>
+                    <div class="project-card-body tilt-inner">
+                        <h3 class="project-card-title">
+                            <a href="https://github.com/Anis-alam"
+                                target="_blank">Customer Behavior Analysis</a>
+                            <span class="arrow"><i
+                                    class="fas fa-arrow-up-right-from-square"></i></span>
+                        </h3>
+                        <div class="project-card-desc">
+                            <ul>
+                                <li>Conducted end-to-end customer behavior
+                                    analysis using Python (Pandas, Matplotlib,
+                                    Seaborn) on e-commerce transaction data</li>
+                                <li>Performed RFM analysis and customer
+                                    segmentation using clustering techniques for
+                                    targeted marketing recommendations</li>
+                                <li>Visualized key findings on churn risk,
+                                    high-value customer profiles, and seasonal
+                                    buying patterns</li>
+                            </ul>
+                        </div>
+                        <div class="project-card-tech">
+                            <span class="project-tech-tag">Python</span>
+                            <span class="project-tech-tag">Pandas</span>
+                            <span class="project-tech-tag">Matplotlib</span>
+                            <span class="project-tech-tag">Seaborn</span>
+                            <span class="project-tech-tag">RFM Analysis</span>
+                        </div>
+                        <div class="project-card-links">
+                            <a href="https://github.com/Anis-alam"
+                                class="project-link" target="_blank">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                            <button class="project-link case-study-btn"
+                                onclick="openCaseStudy('project2')">
+                                <i class="fas fa-book-open"></i> Case Study
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card animate-on-scroll delay-3 tilt-card">
+                    <div class="project-card-image">
+                        <i class="fas fa-chart-line project-icon-large"></i>
+                    </div>
+                    <div class="project-card-body tilt-inner">
+                        <h3 class="project-card-title">
+                            <a href="https://github.com/Anis-alam"
+                                target="_blank">Sales Analysis Dashboard</a>
+                            <span class="arrow"><i
+                                    class="fas fa-arrow-up-right-from-square"></i></span>
+                        </h3>
+                        <div class="project-card-desc">
+                            <ul>
+                                <li>Built a fully interactive Power BI dashboard
+                                    analyzing sales revenue, profit, and trends
+                                    across products and regions</li>
+                                <li>Applied DAX measures for dynamic KPIs
+                                    including sales growth %, profit margin, and
+                                    top-performer rankings
+                                </li>
+                                <li>Implemented row-level security and dynamic
+                                    filtering for personalized stakeholder
+                                    reports
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="project-card-tech">
+                            <span class="project-tech-tag">Power BI</span>
+                            <span class="project-tech-tag">DAX</span>
+                            <span class="project-tech-tag">Data Modeling</span>
+                            <span class="project-tech-tag">Row-Level
+                                Security</span>
+                        </div>
+                        <div class="project-card-links">
+                            <a href="https://github.com/Anis-alam"
+                                class="project-link" target="_blank">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                            <button class="project-link case-study-btn"
+                                onclick="openCaseStudy('project3')">
+                                <i class="fas fa-book-open"></i> Case Study
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card animate-on-scroll delay-4 tilt-card">
+                    <div class="project-card-image">
+                        <i class="fas fa-globe project-icon-large"></i>
+                    </div>
+                    <div class="project-card-body tilt-inner">
+                        <h3 class="project-card-title">
+                            <a href="https://github.com/Anis-alam"
+                                target="_blank">Personal Portfolio Website</a>
+                            <span class="arrow"><i
+                                    class="fas fa-arrow-up-right-from-square"></i></span>
+                        </h3>
+                        <div class="project-card-desc">
+                            <ul>
+                                <li>Designed and developed a fully responsive
+                                    portfolio website using HTML, CSS,
+                                    JavaScript, and WebGL animations</li>
+                                <li>Implemented advanced UI/UX features
+                                    including 3D rotating elements,
+                                    tilt/magnetic interactions, and
+                                    mobile-responsive layouts</li>
+                                <li>Deployed the portfolio showcasing data
+                                    analytics projects, optimized for
+                                    performance and accessibility
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="project-card-tech">
+                            <span class="project-tech-tag">HTML</span>
+                            <span class="project-tech-tag">CSS</span>
+                            <span class="project-tech-tag">JavaScript</span>
+                            <span class="project-tech-tag">WebGL</span>
+                            <span class="project-tech-tag">Responsive
+                                Design</span>
+                        </div>
+                        <div class="project-card-links">
+                            <a href="https://github.com/Anis-alam"
+                                class="project-link" target="_blank">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CASE STUDY MODAL -->
+        <div class="case-study-overlay" id="caseStudyOverlay">
+            <div class="case-study-modal">
+                <div class="case-study-modal-header">
+                    <div class="case-study-modal-header-left">
+                        <p class="case-study-modal-label">Deep Dive Case Study
+                        </p>
+                        <h2 class="case-study-modal-title" id="csTitle"></h2>
+                        <div class="case-study-modal-tech"
+                            id="csTechTags"></div>
+                    </div>
+                    <button class="case-study-close" onclick="closeCaseStudy()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="case-study-modal-body" id="csBody"></div>
+            </div>
+        </div>
+
+        <!-- EXPERIENCE SECTION -->
+        <section id="experience">
+            <div class="section-header animate-on-scroll">
+                <p class="section-label">// Where I've Worked</p>
+                <h2 class="section-title">Work <span
+                        class="gradient-text">Experience</span></h2>
+                <p class="section-subtitle">My professional journey in data
+                    analytics.
+                </p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item animate-on-scroll delay-1">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">Nov 2025 – Jun 2026</div>
+                        <h3 class="timeline-title">Data Analyst Intern</h3>
+                        <p class="timeline-company">QSpiders, Bengaluru, India
+                        </p>
+                        <div class="timeline-desc">
+                            <ul>
+                                <li>Developed and maintained interactive Power
+                                    BI dashboards tracking revenue, profit
+                                    margins, and monthly sales trends</li>
+                                <li>Wrote optimized SQL queries using JOINs,
+                                    GROUP BY, aggregate functions, and
+                                    subqueries, reducing manual reporting time
+                                    by 40%</li>
+                                <li>Performed data cleaning and preprocessing on
+                                    large datasets using Python (Pandas)</li>
+                                <li>Calculated and monitored key business KPIs —
+                                    Total Revenue, Profit Margin, and Sales
+                                    Growth %
+                                </li>
+                                <li>Conducted exploratory data analysis (EDA) on
+                                    customer behavior datasets</li>
+                                <li>Presented data-driven insights to
+                                    cross-functional teams using visualizations
+                                    and dashboards
+                                </li>
+                                <li>Collaborated with business stakeholders to
+                                    gather requirements, define KPIs, and
+                                    deliver reporting solutions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EDUCATION SECTION -->
+        <section id="education">
+            <div class="section-header animate-on-scroll">
+                <p class="section-label">// My Academic Background</p>
+                <h2 class="section-title"><span
+                        class="gradient-text">Education</span></h2>
+                <p class="section-subtitle">Building a strong foundation in
+                    computer applications and analytics.</p>
+            </div>
+            <div class="education-grid">
+                <div class="education-card animate-on-scroll delay-1">
+                    <div class="education-card-header">
+                        <div class="education-icon"><i
+                                class="fas fa-graduation-cap"></i></div>
+                        <div>
+                            <h3>Bachelor of Computer Applications (BCA)</h3>
+                        </div>
+                    </div>
+                    <p class="institution">Sai Nath University, Jharkhand</p>
+                    <p class="period">2022 – 2025</p>
+                    <div class="score">CGPA: 8.3/10</div>
+                </div>
+                <div class="education-card animate-on-scroll delay-2">
+                    <div class="education-card-header">
+                        <div class="education-icon"><i
+                                class="fas fa-school"></i>
+                        </div>
+                        <div>
+                            <h3>Intermediate (Class XII)</h3>
+                        </div>
+                    </div>
+                    <p class="institution">R.T.C Inter College, Ranchi,
+                        Jharkhand
+                    </p>
+                    <p class="period">2020 – 2022</p>
+                    <div class="score">Score: 68%</div>
+                </div>
+            </div>
+            <div class="section-header animate-on-scroll"
+                style="margin-top:80px;">
+                <p class="section-label">// Credentials</p>
+                <h2 class="section-title"><span
+                        class="gradient-text">Certifications</span></h2>
+            </div>
+            <div class="cert-grid">
+                <div class="cert-card animate-on-scroll delay-1">
+                    <div class="cert-icon"><i
+                            class="fas fa-certificate"></i></div>
+                    <div class="cert-info">
+                        <h4>Data Analyst Certification</h4>
+                        <p class="cert-issuer">QSpiders</p>
+                        <p class="cert-date">2026</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section id="contact">
+            <div class="section-header animate-on-scroll">
+                <p class="section-label">// Let's Connect</p>
+                <h2 class="section-title">Get in <span
+                        class="gradient-text">Touch</span></h2>
+                <p class="section-subtitle">Have a project in mind or want to
+                    collaborate? I'd love to hear from you.</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <p class="animate-on-scroll delay-1">
+                        I'm currently looking for entry-level Data Analyst
+                        opportunities. Whether you have a question, an
+                        opportunity, or just want to say hi — my inbox is always
+                        open!
+                    </p>
+                    <div class="contact-methods">
+                        <a href="mailto:anisalam39204@gmail.com"
+                            class="contact-method animate-on-scroll delay-2">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <div class="method-label">Email</div>
+                                <div
+                                    class="method-value">anisalam39204@gmail.com
+                                </div>
+                            </div>
+                        </a>
+                        <a href="tel:+918252532381"
+                            class="contact-method animate-on-scroll delay-3">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <div class="method-label">Phone</div>
+                                <div class="method-value">+91 8252532381</div>
+                            </div>
+                        </a>
+                        <a href="#"
+                            class="contact-method animate-on-scroll delay-4">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <div class="method-label">Location</div>
+                                <div class="method-value">Bengaluru, India</div>
+                            </div>
                         </a>
                         <a
                             href="https://www.linkedin.com/in/anis-alam-214770232/"
-                            target="_blank" class="btn-secondary magnetic">
-                            <span class="btn-border"></span>
-                            <span class="btn-text">LinkedIn</span>
-                            <span class="btn-icon">
-                                <svg viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <path d="M7 17L17 7M17 7H7M17 7v10" />
-                                </svg>
-                            </span>
+                            target="_blank"
+                            class="contact-method animate-on-scroll delay-5">
+                            <i class="fab fa-linkedin-in"></i>
+                            <div>
+                                <div class="method-label">LinkedIn</div>
+                                <div class="method-value">Connect with me</div>
+                            </div>
                         </a>
                     </div>
-
-                    <div class="hero-scroll-indicator">
-                        <div class="scroll-mouse">
-                            <div class="scroll-wheel"></div>
-                        </div>
-                        <span class="scroll-text">Scroll to explore</span>
-                    </div>
                 </div>
-
-                <!-- Floating Tech Icons -->
-                <div class="floating-icons">
-                    <div class="float-icon icon-1">🐍</div>
-                    <div class="float-icon icon-2">📊</div>
-                    <div class="float-icon icon-3">⚛️</div>
-                    <div class="float-icon icon-4">🗄️</div>
-                    <div class="float-icon icon-5">📈</div>
-                </div>
-            </section>
-
-            <!-- About Section -->
-            <section id="about">
-                <div class="section-bg"></div>
-
-                <div class="sec-header reveal">
-                    <span class="sec-number">01</span>
-                    <div class="sec-label">About</div>
-                    <div class="sec-line"></div>
-                </div>
-
-                <div class="about-grid">
-                    <div class="about-text reveal-left">
-                        <h2 class="sec-title">
-                            Analyst by mind,<br />
-                            <span class="gradient-text">builder by
-                                passion</span>
-                        </h2>
-
-                        <div class="about-paragraphs">
-                            <p class="about-para">
-                                <span class="para-marker"></span> I'm a data
-                                analyst passionate about uncovering insights in
-                                complex datasets. From SQL queries to Power BI
-                                dashboards, I build end-to-end pipelines that
-                                turn raw numbers into clear business
-                                decisions.
-                            </p>
-                            <p class="about-para">
-                                <span class="para-marker"></span> I also build
-                                web interfaces — crafting a full-stack job board
-                                with React and Node.js, and a space-themed
-                                portfolio with WebM video effects and CSS blend
-                                modes.
-                            </p>
-                            <p class="about-para">
-                                <span class="para-marker"></span> Always
-                                exploring, always building — one dataset or
-                                component at a time.
-                            </p>
+                <form class="contact-form" onsubmit="handleFormSubmit(event)">
+                    <div class="form-row">
+                        <div class="form-group animate-on-scroll delay-1">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" placeholder="John Doe"
+                                required>
                         </div>
-
-                        <div class="stats-strip">
-                            <div class="stat-item magnetic" data-value="6">
-                                <div class="stat-ring">
-                                    <svg viewBox="0 0 100 100">
-                                        <circle cx="50" cy="50" r="45"
-                                            class="stat-ring-bg" />
-                                        <circle cx="50" cy="50" r="45"
-                                            class="stat-ring-fill"
-                                            data-percent="75" />
-                                    </svg>
-                                </div>
-                                <div class="stat-content">
-                                    <div class="stat-num"><span
-                                            class="counter">6</span>+</div>
-                                    <div class="stat-label">Projects</div>
-                                </div>
-                            </div>
-                            <div class="stat-item magnetic" data-value="15">
-                                <div class="stat-ring">
-                                    <svg viewBox="0 0 100 100">
-                                        <circle cx="50" cy="50" r="45"
-                                            class="stat-ring-bg" />
-                                        <circle cx="50" cy="50" r="45"
-                                            class="stat-ring-fill"
-                                            data-percent="90" />
-                                    </svg>
-                                </div>
-                                <div class="stat-content">
-                                    <div class="stat-num"><span
-                                            class="counter">15</span>+</div>
-                                    <div class="stat-label">Tools</div>
-                                </div>
-                            </div>
-                            <div class="stat-item magnetic" data-value="3">
-                                <div class="stat-ring">
-                                    <svg viewBox="0 0 100 100">
-                                        <circle cx="50" cy="50" r="45"
-                                            class="stat-ring-bg" />
-                                        <circle cx="50" cy="50" r="45"
-                                            class="stat-ring-fill"
-                                            data-percent="60" />
-                                    </svg>
-                                </div>
-                                <div class="stat-content">
-                                    <div class="stat-num"><span
-                                            class="counter">3</span>+</div>
-                                    <div class="stat-label">ML Models</div>
-                                </div>
-                            </div>
-                            <div class="stat-item magnetic" data-value="∞">
-                                <div class="stat-ring infinity">
-                                    <svg viewBox="0 0 100 100">
-                                        <circle cx="50" cy="50" r="45"
-                                            class="stat-ring-bg" />
-                                        <circle cx="50" cy="50" r="45"
-                                            class="stat-ring-fill"
-                                            data-percent="100" />
-                                    </svg>
-                                </div>
-                                <div class="stat-content">
-                                    <div class="stat-num">∞</div>
-                                    <div class="stat-label">Curiosity</div>
-                                </div>
-                            </div>
+                        <div class="form-group animate-on-scroll delay-2">
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email"
+                                placeholder="john@example.com" required>
                         </div>
                     </div>
-
-                    <div class="reveal-right">
-                        <div class="avatar-container">
-                            <div class="avatar-glow"></div>
-                            <div class="avatar-scene">
-                                <div class="avatar-cube">
-                                    <div
-                                        class="cube-face cube-front"><span>🧑‍💻</span></div>
-                                    <div
-                                        class="cube-face cube-back"><span>📊</span></div>
-                                    <div
-                                        class="cube-face cube-left"><span>🐍</span></div>
-                                    <div
-                                        class="cube-face cube-right"><span>⚛️</span></div>
-                                    <div
-                                        class="cube-face cube-top"><span>🗄️</span></div>
-                                    <div
-                                        class="cube-face cube-bottom"><span>🤖</span></div>
-                                </div>
-                            </div>
-                            <div class="avatar-orbits">
-                                <div class="orbit orbit-1">
-                                    <div class="orbit-dot"></div>
-                                </div>
-                                <div class="orbit orbit-2">
-                                    <div class="orbit-dot"></div>
-                                </div>
-                                <div class="orbit orbit-3">
-                                    <div class="orbit-dot"></div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="form-group animate-on-scroll delay-3">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject"
+                            placeholder="What's this about?">
                     </div>
-                </div>
-            </section>
-
-            <!-- Skills Section -->
-            <section id="skills">
-                <div class="section-bg"></div>
-
-                <div class="sec-header reveal">
-                    <span class="sec-number">02</span>
-                    <div class="sec-label">Expertise</div>
-                    <div class="sec-line"></div>
-                </div>
-
-                <h2 class="sec-title reveal">Skills & <span
-                        class="gradient-text">Technologies</span></h2>
-
-                <div class="key-skills reveal">
-                    <div class="skill-bar-card magnetic">
-                        <div class="skill-icon">🐍</div>
-                        <div class="skill-info">
-                            <div class="sb-name">Python <span
-                                    class="sb-pct">88%</span></div>
-                            <div class="sb-track">
-                                <div class="sb-fill" data-w=".88">
-                                    <div class="sb-glow"></div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="form-group animate-on-scroll delay-4">
+                        <label for="message">Message</label>
+                        <textarea id="message"
+                            placeholder="Tell me about your project..."
+                            required></textarea>
                     </div>
-                    <div class="skill-bar-card magnetic">
-                        <div class="skill-icon">🗄️</div>
-                        <div class="skill-info">
-                            <div class="sb-name">SQL / PostgreSQL <span
-                                    class="sb-pct">85%</span></div>
-                            <div class="sb-track">
-                                <div class="sb-fill" data-w=".85">
-                                    <div class="sb-glow"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skill-bar-card magnetic">
-                        <div class="skill-icon">📊</div>
-                        <div class="skill-info">
-                            <div class="sb-name">Power BI <span
-                                    class="sb-pct">82%</span></div>
-                            <div class="sb-track">
-                                <div class="sb-fill" data-w=".82">
-                                    <div class="sb-glow"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skill-bar-card magnetic">
-                        <div class="skill-icon">🐼</div>
-                        <div class="skill-info">
-                            <div class="sb-name">Pandas / NumPy <span
-                                    class="sb-pct">86%</span></div>
-                            <div class="sb-track">
-                                <div class="sb-fill" data-w=".86">
-                                    <div class="sb-glow"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skill-bar-card magnetic">
-                        <div class="skill-icon">🤖</div>
-                        <div class="skill-info">
-                            <div class="sb-name">Machine Learning <span
-                                    class="sb-pct">75%</span></div>
-                            <div class="sb-track">
-                                <div class="sb-fill" data-w=".75">
-                                    <div class="sb-glow"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skill-bar-card magnetic">
-                        <div class="skill-icon">📈</div>
-                        <div class="skill-info">
-                            <div class="sb-name">Excel <span
-                                    class="sb-pct">90%</span></div>
-                            <div class="sb-track">
-                                <div class="sb-fill" data-w=".90">
-                                    <div class="sb-glow"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    <button type="submit"
+                        class="btn btn-primary animate-on-scroll delay-5 magnetic-btn"
+                        style="width:fit-content;">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+            </div>
+        </section>
 
-                <div class="skills-categories">
-                    <div class="skill-category reveal">
-                        <div class="skill-category-header">
-                            <span class="category-icon">💻</span>
-                            <div class="skill-category-title">Programming
-                                Languages
-                            </div>
-                        </div>
-                        <div class="skills-row">
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Python</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>SQL</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-category reveal"
-                        style="transition-delay:.06s">
-                        <div class="skill-category-header">
-                            <span class="category-icon">📊</span>
-                            <div class="skill-category-title">Data Analysis &
-                                Science
-                            </div>
-                        </div>
-                        <div class="skills-row">
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Pandas</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>NumPy</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Matplotlib</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Seaborn</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Scikit-learn</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Statistical Analysis
-                            </span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Data Cleaning</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>EDA</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-category reveal"
-                        style="transition-delay:.1s">
-                        <div class="skill-category-header">
-                            <span class="category-icon">🤖</span>
-                            <div class="skill-category-title">Machine Learning
-                            </div>
-                        </div>
-                        <div class="skills-row">
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Regression</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Classification</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Predictive Analytics
-                            </span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Model Evaluation</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Computer Vision</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>OpenCV</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>DeepFace</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-category reveal"
-                        style="transition-delay:.14s">
-                        <div class="skill-category-header">
-                            <span class="category-icon">🗄️</span>
-                            <div class="skill-category-title">Databases</div>
-                        </div>
-                        <div class="skills-row">
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>MySQL</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>PostgreSQL</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Oracle SQL</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>SQL Server</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Joins & Subqueries</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Window Functions</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>CTEs</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-category reveal"
-                        style="transition-delay:.18s">
-                        <div class="skill-category-header">
-                            <span class="category-icon">📈</span>
-                            <div class="skill-category-title">BI & Visualization
-                            </div>
-                        </div>
-                        <div class="skills-row">
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Power BI</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>DAX</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Data Modeling</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Data Storytelling</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Dashboard Design</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-category reveal"
-                        style="transition-delay:.22s">
-                        <div class="skill-category-header">
-                            <span class="category-icon">⚛️</span>
-                            <div class="skill-category-title">Frontend
-                                Development
-                            </div>
-                        </div>
-                        <div class="skills-row">
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>HTML5</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>CSS3</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>JavaScript</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>React</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Responsive Design</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>CSS Animations</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-category reveal"
-                        style="transition-delay:.26s">
-                        <div class="skill-category-header">
-                            <span class="category-icon">🛠️</span>
-                            <div class="skill-category-title">Tools &
-                                Environment
-                            </div>
-                        </div>
-                        <div class="skills-row">
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Excel</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>VS Code</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>GitHub</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Jupyter Notebook</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>PyCharm</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>ChatGPT</span>
-                            <span class="skill-pill magnetic"><span
-                                    class="pill-glow"></span><span
-                                    class="dot"></span>Claude AI</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Projects Section -->
-            <section id="projects">
-                <div class="section-bg"></div>
-
-                <div class="sec-header reveal">
-                    <span class="sec-number">03</span>
-                    <div class="sec-label">Work</div>
-                    <div class="sec-line"></div>
-                </div>
-
-                <h2 class="sec-title reveal">Featured <span
-                        class="gradient-text">Projects</span></h2>
-
-                <div class="projects-grid">
-                    <article class="project-card reveal" data-tilt>
-                        <div class="card-glow"></div>
-                        <div class="project-top grad-1">
-                            <span class="project-emoji">📊</span>
-                            <div class="project-top-overlay"></div>
-                        </div>
-                        <div class="project-body">
-                            <div class="project-type">
-                                <span class="type-dot"></span> Data Analytics ·
-                                Power BI
-                            </div>
-                            <h3 class="project-title">Sales Data Analysis
-                                Dashboard
-                            </h3>
-                            <p class="project-desc">Interactive Power BI
-                                dashboard analyzing sales KPIs, revenue trends,
-                                regional performance, and product-level
-                                profitability with drill-through reports.</p>
-                            <div class="project-tags">
-                                <span class="tag">Power BI</span>
-                                <span class="tag">SQL</span>
-                                <span class="tag">DAX</span>
-                                <span class="tag">Excel</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/Anis-alam"
-                                    target="_blank" class="project-link">
-                                    <svg viewBox="0 0 24 24"
-                                        fill="currentColor"><path
-                                            d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" /></svg>
-                                    GitHub
-                                </a>
-                                <a href="#" class="project-link">
-                                    <svg viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"><path
-                                            d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" /></svg>
-                                    Live Demo
-                                </a>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="project-card reveal" data-tilt
-                        style="transition-delay:.07s">
-                        <div class="card-glow"></div>
-                        <div class="project-top grad-2">
-                            <span class="project-emoji">🛒</span>
-                            <div class="project-top-overlay"></div>
-                        </div>
-                        <div class="project-body">
-                            <div class="project-type">
-                                <span class="type-dot"></span> Data Analytics ·
-                                Python
-                            </div>
-                            <h3 class="project-title">Customer Behavior
-                                Dashboard
-                            </h3>
-                            <p class="project-desc">EDA and visual dashboard
-                                revealing customer segmentation, purchase
-                                patterns, churn indicators, and lifetime value
-                                using pandas, Seaborn, and Power BI.</p>
-                            <div class="project-tags">
-                                <span class="tag">Python</span>
-                                <span class="tag">Pandas</span>
-                                <span class="tag">Seaborn</span>
-                                <span class="tag">Power BI</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/Anis-alam"
-                                    target="_blank" class="project-link">
-                                    <svg viewBox="0 0 24 24"
-                                        fill="currentColor"><path
-                                            d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" /></svg>
-                                    GitHub
-                                </a>
-                                <a href="#" class="project-link">
-                                    <svg viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"><path
-                                            d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" /></svg>
-                                    Live Demo
-                                </a>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="project-card reveal" data-tilt
-                        style="transition-delay:.14s">
-                        <div class="card-glow"></div>
-                        <div class="project-top grad-3">
-                            <span class="project-emoji">🏥</span>
-                            <div class="project-top-overlay"></div>
-                        </div>
-                        <div class="project-body">
-                            <div class="project-type">
-                                <span class="type-dot"></span> Full-Stack ·
-                                Database
-                            </div>
-                            <h3 class="project-title">Hospital Health Care
-                                Management
-                            </h3>
-                            <p class="project-desc">End-to-end healthcare
-                                management system with patient records,
-                                appointment scheduling, doctor-patient mapping,
-                                and an analytics dashboard built on SQL.</p>
-                            <div class="project-tags">
-                                <span class="tag">SQL</span>
-                                <span class="tag">Python</span>
-                                <span class="tag">MySQL</span>
-                                <span class="tag">Excel</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/Anis-alam"
-                                    target="_blank" class="project-link">
-                                    <svg viewBox="0 0 24 24"
-                                        fill="currentColor"><path
-                                            d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" /></svg>
-                                    GitHub
-                                </a>
-                                <a href="#" class="project-link">
-                                    <svg viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"><path
-                                            d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" /></svg>
-                                    Live Demo
-                                </a>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="project-card reveal" data-tilt
-                        style="transition-delay:.21s">
-                        <div class="card-glow"></div>
-                        <div class="project-top grad-4">
-                            <span class="project-emoji">🤖</span>
-                            <div class="project-top-overlay"></div>
-                        </div>
-                        <div class="project-body">
-                            <div class="project-type">
-                                <span class="type-dot"></span> AI / Computer
-                                Vision
-                            </div>
-                            <h3 class="project-title">Real-Time Facial Emotion
-                                Detection
-                            </h3>
-                            <p class="project-desc">Live emotion recognition app
-                                using OpenCV and DeepFace that detects 7
-                                emotions in real time from webcam feed with
-                                frame-by-frame analysis and confidence scores.
-                            </p>
-                            <div class="project-tags">
-                                <span class="tag">Python</span>
-                                <span class="tag">OpenCV</span>
-                                <span class="tag">DeepFace</span>
-                                <span class="tag">Computer Vision</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/Anis-alam"
-                                    target="_blank" class="project-link">
-                                    <svg viewBox="0 0 24 24"
-                                        fill="currentColor"><path
-                                            d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" /></svg>
-                                    GitHub
-                                </a>
-                                <a href="#" class="project-link">
-                                    <svg viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"><path
-                                            d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" /></svg>
-                                    Demo
-                                </a>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="project-card reveal" data-tilt
-                        style="transition-delay:.28s">
-                        <div class="card-glow"></div>
-                        <div class="project-top grad-5">
-                            <span class="project-emoji">📦</span>
-                            <div class="project-top-overlay"></div>
-                        </div>
-                        <div class="project-body">
-                            <div class="project-type">
-                                <span class="type-dot"></span> Data Analytics ·
-                                End-to-End
-                            </div>
-                            <h3 class="project-title">E-Commerce Sales
-                                Performance
-                            </h3>
-                            <p class="project-desc">Full pipeline on the Olist
-                                dataset — cleaning in Excel, SQL querying in
-                                PostgreSQL, EDA in Python, and Power BI
-                                dashboard revealing revenue trends and customer
-                                patterns.
-                            </p>
-                            <div class="project-tags">
-                                <span class="tag">PostgreSQL</span>
-                                <span class="tag">Python</span>
-                                <span class="tag">Power BI</span>
-                                <span class="tag">Excel</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/Anis-alam"
-                                    target="_blank" class="project-link">
-                                    <svg viewBox="0 0 24 24"
-                                        fill="currentColor"><path
-                                            d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" /></svg>
-                                    GitHub
-                                </a>
-                                <a href="#" class="project-link">
-                                    <svg viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"><path
-                                            d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" /></svg>
-                                    Demo
-                                </a>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="project-card reveal" data-tilt
-                        style="transition-delay:.35s">
-                        <div class="card-glow"></div>
-                        <div class="project-top grad-6">
-                            <span class="project-emoji">💼</span>
-                            <div class="project-top-overlay"></div>
-                        </div>
-                        <div class="project-body">
-                            <div class="project-type">
-                                <span class="type-dot"></span> Full-Stack Web
-                            </div>
-                            <h3 class="project-title">Job Board Platform</h3>
-                            <p class="project-desc">Full-featured job listing
-                                app with employer & candidate dashboards, search
-                                & filters, JWT authentication, email
-                                notifications, and smooth animations.</p>
-                            <div class="project-tags">
-                                <span class="tag">React</span>
-                                <span class="tag">Node.js</span>
-                                <span class="tag">MongoDB</span>
-                                <span class="tag">JWT</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/Anis-alam"
-                                    target="_blank" class="project-link">
-                                    <svg viewBox="0 0 24 24"
-                                        fill="currentColor"><path
-                                            d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" /></svg>
-                                    GitHub
-                                </a>
-                                <a href="#" class="project-link">
-                                    <svg viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"><path
-                                            d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" /></svg>
-                                    Live
-                                </a>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </section>
-
-            <!-- Contact Section -->
-            <section id="contact">
-                <div class="section-bg"></div>
-
-                <div class="sec-header reveal">
-                    <span class="sec-number">04</span>
-                    <div class="sec-label">Contact</div>
-                    <div class="sec-line"></div>
-                </div>
-
-                <h2 class="sec-title reveal">Say <span
-                        class="gradient-text">Hello</span></h2>
-
-                <div class="contact-container reveal">
-                    <div class="contact-card">
-                        <div class="card-glow contact-glow"></div>
-                        <div class="contact-inner">
-                            <p class="contact-sub">
-                                I'm looking for data analyst and frontend
-                                development roles. Have a project or
-                                opportunity? I'd love to connect.
-                            </p>
-
-                            <a href="mailto:anisalam39204@gmail.com"
-                                class="contact-email magnetic">
-                                <span class="email-icon">
-                                    <svg viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor" stroke-width="2">
-                                        <rect x="2" y="4" width="20" height="16"
-                                            rx="2" />
-                                        <path d="M22 6l-10 7L2 6" />
-                                    </svg>
-                                </span>
-                                <span
-                                    class="email-text">anisalam39204@gmail.com</span>
-                                <span class="email-arrow">→</span>
-                            </a>
-
-                            <div class="contact-divider">
-                                <span class="divider-line"></span>
-                                <span class="divider-text">or connect via</span>
-                                <span class="divider-line"></span>
-                            </div>
-
-                            <div class="socials">
-                                <a
-                                    href="https://www.linkedin.com/in/anis-alam-214770232/"
-                                    target="_blank"
-                                    class="social-link magnetic">
-                                    <span class="social-bg"></span>
-                                    <svg viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg"><path
-                                            d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
-                                    <span class="social-name">LinkedIn</span>
-                                </a>
-                                <a href="https://github.com/Anis-alam"
-                                    target="_blank"
-                                    class="social-link magnetic">
-                                    <span class="social-bg"></span>
-                                    <svg viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg"><path
-                                            d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" /></svg>
-                                    <span class="social-name">GitHub</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <!-- Footer -->
+        <!-- FOOTER -->
         <footer>
             <div class="footer-content">
-                <div class="footer-logo">AA</div>
-                <p class="footer-text">
-                    Designed & Built by
+                <div class="footer-social">
                     <a href="https://www.linkedin.com/in/anis-alam-214770232/"
-                        target="_blank">Anis Alam</a>
+                        class="social-link" target="_blank">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://github.com/Anis-alam" class="social-link"
+                        target="_blank">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="mailto:anisalam39204@gmail.com"
+                        class="social-link">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+                <p class="footer-text">
+                    Designed & Built with <span class="heart">❤</span> by <a
+                        href="#hero">Anis Alam</a>
                 </p>
-                <p class="footer-location">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <path
-                            d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                        <circle cx="12" cy="10" r="3" />
-                    </svg> Bengaluru, India · 2025
+                <p class="footer-text" style="margin-top:6px;">© 2026 All rights
+                    reserved.
                 </p>
             </div>
-            <div class="footer-decoration"></div>
         </footer>
 
-        <script src="p.js"></script>
+        <!-- SCROLL TO TOP -->
+        <button class="scroll-top" id="scrollTop">
+            <i class="fas fa-arrow-up"></i>
+        </button>
     </body>
 
 </html>
