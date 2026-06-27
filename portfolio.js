@@ -1,856 +1,546 @@
-// ═══════════════════════════════════════════════════════════════════════════
-// ULTRA-PREMIUM 3D PORTFOLIO - MAIN JAVASCRIPT
-// Advanced animations, WebGL effects, and interactive features
-// ═══════════════════════════════════════════════════════════════════════════
-
-// ── CUSTOM CURSOR ──
-class CustomCursor {
-  constructor() {
-    this.cursor = document.getElementById("cursor");
-    this.ring = document.getElementById("cursor-ring");
-    this.cursorPos = { x: 0, y: 0 };
-    this.ringPos = { x: 0, y: 0 };
-    this.isHovering = false;
-
-    this.init();
-  }
-
-  init() {
-    document.addEventListener("mousemove", (e) => {
-      this.cursorPos.x = e.clientX;
-      this.cursorPos.y = e.clientY;
-
-      this.cursor.style.left = `${e.clientX}px`;
-      this.cursor.style.top = `${e.clientY}px`;
-    });
-
-    // Interactive elements
-    const interactiveElements = document.querySelectorAll(
-      "a, button, .project-card, .skill-pill, .stat-item, .magnetic, [data-cursor]",
-    );
-
-    interactiveElements.forEach((el) => {
-      el.addEventListener("mouseenter", () => {
-        this.ring.classList.add("hover");
-        this.cursor.classList.add("active");
-      });
-
-      el.addEventListener("mouseleave", () => {
-        this.ring.classList.remove("hover");
-        this.cursor.classList.remove("active");
-      });
-    });
-
-    // Click effect
-    document.addEventListener("mousedown", () => {
-      this.ring.classList.add("click");
-    });
-
-    document.addEventListener("mouseup", () => {
-      this.ring.classList.remove("click");
-    });
-
-    this.animate();
-  }
-
-  animate() {
-    // Smooth ring following
-    this.ringPos.x += (this.cursorPos.x - this.ringPos.x) * 0.12;
-    this.ringPos.y += (this.cursorPos.y - this.ringPos.y) * 0.12;
-
-    this.ring.style.left = `${this.ringPos.x}px`;
-    this.ring.style.top = `${this.ringPos.y}px`;
-
-    requestAnimationFrame(() => this.animate());
-  }
-}
-
-// ── MAGNETIC EFFECT ──
-class MagneticEffect {
-  constructor() {
-    this.elements = document.querySelectorAll(".magnetic");
-    this.init();
-  }
-
-  init() {
-    this.elements.forEach((el) => {
-      el.addEventListener("mousemove", (e) => {
-        const rect = el.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-
-        el.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
-      });
-
-      el.addEventListener("mouseleave", () => {
-        el.style.transform = "translate(0, 0)";
-      });
-    });
-  }
-}
-
-// ── SCROLL PROGRESS ──
-class ScrollProgress {
-  constructor() {
-    this.progressBar = document.querySelector(".progress-bar");
-    this.init();
-  }
-
-  init() {
-    window.addEventListener("scroll", () => {
-      const winScroll =
-        document.body.scrollTop || document.documentElement.scrollTop;
-      const height =
-        document.documentElement.scrollHeight -
-        document.documentElement.clientHeight;
-      const scrolled = (winScroll / height) * 100;
-
-      this.progressBar.style.width = `${scrolled}%`;
-    });
-  }
-}
-
-// ── NAVIGATION ──
-class Navigation {
-  constructor() {
-    this.nav = document.getElementById("main-nav");
-    this.lastScroll = 0;
-    this.init();
-  }
-
-  init() {
-    window.addEventListener("scroll", () => {
-      const currentScroll = window.pageYOffset;
-
-      if (currentScroll > 50) {
-        this.nav.classList.add("scrolled");
-      } else {
-        this.nav.classList.remove("scrolled");
-      }
-
-      this.lastScroll = currentScroll;
-    });
-
-    // Smooth scroll for nav links
-    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-      anchor.addEventListener("click", (e) => {
-        e.preventDefault();
-        const target = document.querySelector(anchor.getAttribute("href"));
-        if (target) {
-          target.scrollIntoView({ behavior: "smooth" });
-        }
-      });
-    });
-  }
-}
-
-// ── TYPEWRITER EFFECT ──
-class Typewriter {
-  constructor() {
-    this.element = document.getElementById("typed");
-    this.words = [
-      "data pipelines.",
-      "ML models.",
-      "BI dashboards.",
-      "SQL queries.",
-      "web apps.",
-      "visual stories.",
-      "clean code.",
-      "insights.",
-    ];
-    this.wordIndex = 0;
-    this.charIndex = 0;
-    this.isDeleting = false;
-    this.typeSpeed = 80;
-    this.deleteSpeed = 40;
-    this.pauseTime = 2000;
-
-    this.init();
-  }
-
-  init() {
-    this.type();
-  }
-
-  type() {
-    const currentWord = this.words[this.wordIndex];
-
-    if (!this.isDeleting) {
-      this.element.textContent = currentWord.slice(0, ++this.charIndex);
-
-      if (this.charIndex === currentWord.length) {
-        this.isDeleting = true;
-        setTimeout(() => this.type(), this.pauseTime);
-        return;
-      }
-    } else {
-      this.element.textContent = currentWord.slice(0, --this.charIndex);
-
-      if (this.charIndex === 0) {
-        this.isDeleting = false;
-        this.wordIndex = (this.wordIndex + 1) % this.words.length;
-      }
-    }
-
-    const speed = this.isDeleting ? this.deleteSpeed : this.typeSpeed;
-    setTimeout(() => this.type(), speed);
-  }
-}
-
-// ── HERO NAME 3D EFFECT ──
-class HeroName3D {
-  constructor() {
-    this.letters = document.querySelectorAll(".name-letter");
-    this.init();
-  }
-
-  init() {
-    document.addEventListener("mousemove", (e) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 2;
-      const y = (e.clientY / window.innerHeight - 0.5) * 2;
-
-      this.letters.forEach((letter, index) => {
-        const delay = index * 0.02;
-        const rotateX = y * -8;
-        const rotateY = x * 8;
-        const translateZ = Math.abs(x * y) * 20;
-
-        letter.style.transform = `
-                    perspective(1000px)
-                    rotateX(${rotateX}deg)
-                    rotateY(${rotateY}deg)
-                    translateZ(${translateZ}px)
-                `;
-        letter.style.transitionDelay = `${delay}s`;
-      });
-    });
-  }
-}
-
-// ── SCROLL REVEAL ──
-class ScrollReveal {
-  constructor() {
-    this.elements = document.querySelectorAll(
-      ".reveal, .reveal-left, .reveal-right",
-    );
-    this.init();
-  }
-
-  init() {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-
-            // Animate skill bars
-            entry.target.querySelectorAll(".sb-fill").forEach((bar) => {
-              bar.style.transform = `scaleX(${bar.dataset.w})`;
-            });
-
-            // Animate stat rings
-            entry.target.querySelectorAll(".stat-ring-fill").forEach((ring) => {
-              const percent = ring.dataset.percent;
-              ring.style.strokeDashoffset = 283 - (283 * percent) / 100;
-            });
-          }
-        });
-      },
-      { threshold: 0.15 },
-    );
-
-    this.elements.forEach((el) => observer.observe(el));
-
-    // Also observe key-skills section for skill bars
-    const keySkills = document.querySelector(".key-skills");
-    if (keySkills) {
-      observer.observe(keySkills);
-    }
-  }
-}
-
-// ── PROJECT CARD TILT ──
-class ProjectCardTilt {
-  constructor() {
-    this.cards = document.querySelectorAll(".project-card");
-    this.init();
-  }
-
-  init() {
-    this.cards.forEach((card) => {
-      card.addEventListener("mousemove", (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-
-        const rotateX = ((y - centerY) / centerY) * -6;
-        const rotateY = ((x - centerX) / centerX) * 6;
-
-        card.style.transform = `
-                    perspective(1000px)
-                    rotateX(${rotateX}deg)
-                    rotateY(${rotateY}deg)
-                    translateY(-10px)
-                `;
-
-        // Update glow position
-        const glow = card.querySelector(".card-glow");
-        if (glow) {
-          glow.style.setProperty("--x", `${(x / rect.width) * 100}%`);
-          glow.style.setProperty("--y", `${(y / rect.height) * 100}%`);
-        }
-      });
-
-      card.addEventListener("mouseleave", () => {
-        card.style.transform = "";
-      });
-    });
-  }
-}
-
-// ── SKILL PILL GLOW ──
-class SkillPillGlow {
-  constructor() {
-    this.pills = document.querySelectorAll(".skill-pill");
-    this.init();
-  }
-
-  init() {
-    this.pills.forEach((pill) => {
-      pill.addEventListener("mousemove", (e) => {
-        const rect = pill.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width) * 100;
-        const y = ((e.clientY - rect.top) / rect.height) * 100;
-
-        pill.style.setProperty("--x", `${x}%`);
-        pill.style.setProperty("--y", `${y}%`);
-      });
-    });
-  }
-}
-
-// ── VIDEO BACKGROUND ──
-class VideoBackground {
-  constructor() {
-    this.videos = [
-      document.getElementById("vid0"),
-      document.getElementById("vid2"),
-    ];
-    this.dots = document.querySelectorAll(".vid-dot");
-    this.currentIndex = 0;
-    this.interval = 15000;
-
-    this.init();
-  }
-
-  init() {
-    // Load and play all videos
-    this.videos.forEach((video) => {
-      if (video) {
-        video.load();
-        video.play().catch(() => {});
-      }
-    });
-
-    // Start cycling
-    setInterval(() => this.next(), this.interval);
-
-    // Parallax effect
-    const vbg = document.getElementById("video-bg");
-    if (vbg) {
-      document.addEventListener("mousemove", (e) => {
-        const x = (e.clientX / window.innerWidth - 0.5) * 10;
-        const y = (e.clientY / window.innerHeight - 0.5) * 10;
-        vbg.style.transform = `scale(1.05) translate(${-x}px, ${-y}px)`;
-      });
-    }
-  }
-
-  next() {
-    if (!this.videos[this.currentIndex]) return;
-
-    this.videos[this.currentIndex].classList.remove("active");
-    if (this.dots[this.currentIndex]) {
-      this.dots[this.currentIndex].classList.remove("active");
-    }
-
-    this.currentIndex = (this.currentIndex + 1) % this.videos.length;
-
-    if (this.videos[this.currentIndex]) {
-      this.videos[this.currentIndex].classList.add("active");
-      this.videos[this.currentIndex].currentTime = 0;
-      this.videos[this.currentIndex].play().catch(() => {});
-    }
-
-    if (this.dots[this.currentIndex]) {
-      this.dots[this.currentIndex].classList.add("active");
-    }
-  }
-}
-
-// ── WEBGL GALAXY ──
-class WebGLGalaxy {
-  constructor() {
-    this.canvas = document.getElementById("bg-canvas");
-    if (!this.canvas) return;
-
-    this.gl =
-      this.canvas.getContext("webgl") ||
-      this.canvas.getContext("experimental-webgl");
-
-    if (this.gl) {
-      this.init();
-    } else {
-      this.fallback();
-    }
-  }
-
-  init() {
-    const gl = this.gl;
-    let W = (this.canvas.width = window.innerWidth);
-    let H = (this.canvas.height = window.innerHeight);
-    gl.viewport(0, 0, W, H);
-
-    window.addEventListener("resize", () => {
-      W = this.canvas.width = window.innerWidth;
-      H = this.canvas.height = window.innerHeight;
-      gl.viewport(0, 0, W, H);
-    });
-
-    const N = 1200;
-    const pos = new Float32Array(N * 3);
-    const col = new Float32Array(N * 4);
-
-    // Rose gold color palette
-    const palette = [
-      [0.91, 0.71, 0.72, 0.5], // Rose gold
-      [0.66, 0.33, 0.97, 0.4], // Purple
-      [0.02, 0.71, 0.83, 0.4], // Cyan
-      [0.98, 0.44, 0.52, 0.35], // Coral
-      [1, 0.98, 0.95, 0.3], // Cream
-    ];
-
-    for (let i = 0; i < N; i++) {
-      const u = Math.random();
-      const v = Math.random();
-      const theta = 2 * Math.PI * u;
-      const phi = Math.acos(2 * v - 1);
-      const r = 0.25 + Math.random() * 0.75;
-
-      pos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-      pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-      pos[i * 3 + 2] = r * Math.cos(phi);
-
-      const c = palette[Math.floor(Math.random() * palette.length)];
-      col[i * 4] = c[0];
-      col[i * 4 + 1] = c[1];
-      col[i * 4 + 2] = c[2];
-      col[i * 4 + 3] = c[3] * (0.3 + Math.random() * 0.5);
-    }
-
-    const vertexShader = `
-            attribute vec3 a_position;
-            attribute vec4 a_color;
-            uniform float u_time;
-            uniform vec2 u_mouse;
-            uniform vec2 u_resolution;
-            varying vec4 v_color;
-            
-            void main() {
-                vec3 pos = a_position;
-                
-                // Rotation
-                float ct = cos(u_time * 0.05);
-                float st = sin(u_time * 0.05);
-                float x2 = pos.x * ct - pos.z * st;
-                float z2 = pos.x * st + pos.z * ct;
-                pos = vec3(x2, pos.y, z2);
-                
-                // Mouse interaction
-                vec2 nd = vec2(u_mouse.x / u_resolution.x * 2.0 - 1.0, -(u_mouse.y / u_resolution.y * 2.0 - 1.0));
-                pos.xy += nd * 0.04;
-                
-                gl_Position = vec4(pos.xy, pos.z * 0.4 + 0.4, 1.0);
-                gl_PointSize = clamp(2.5 * (1.1 - pos.z), 1.0, 4.5);
-                v_color = a_color;
+// ===== CASE STUDY DATA =====
+        const caseStudies = {
+            project1: {
+                title: 'Healthcare <span class="gradient-text">Power BI Dashboard</span>',
+                techTags: ['Power BI', 'DAX', 'SQL', 'Data Modeling', 'Excel', 'CSV'],
+                sections: [{
+                    icon: 'fas fa-exclamation-triangle',
+                    iconClass: 'red',
+                    title: 'The Problem',
+                    content: `<p>Hospitals generate massive volumes of data — patient admissions, treatment records, resource allocation logs — but this data often sits in disconnected spreadsheets and databases.</p><div class="cs-highlight">Critical healthcare metrics are buried in raw data files, making it impossible to monitor hospital performance in real-time.</div>`
+                }, {
+                    icon: 'fas fa-rocket',
+                    iconClass: 'green',
+                    title: 'The Solution',
+                    content: `<p>I built a <strong>comprehensive Power BI dashboard</strong> providing a unified view of hospital operations:</p><ul><li><strong>Patient Admissions Tracking:</strong> Real-time monitoring of admission trends</li><li><strong>Treatment Outcomes Analysis:</strong> Visual breakdown of recovery rates by department</li><li><strong>Resource Utilization:</strong> Bed occupancy rates with threshold alerts</li><li><strong>Dynamic KPIs with DAX:</strong> Calculated measures for key metrics</li></ul>`
+                }, {
+                    icon: 'fas fa-sitemap',
+                    iconClass: 'blue',
+                    title: 'Data Architecture',
+                    type: 'architecture',
+                    nodes: ['CSV/Excel/SQL', 'Power Query ETL', 'Star Schema', 'DAX Measures', 'Dashboard', 'Reports']
+                }, {
+                    icon: 'fas fa-layer-group',
+                    iconClass: 'blue',
+                    title: 'Tech Stack',
+                    type: 'techstack',
+                    items: [{
+                        icon: 'fas fa-chart-pie',
+                        label: 'Power BI'
+                    }, {
+                        icon: 'fas fa-calculator',
+                        label: 'DAX'
+                    }, {
+                        icon: 'fas fa-database',
+                        label: 'SQL'
+                    }, {
+                        icon: 'fas fa-file-excel',
+                        label: 'Excel/CSV'
+                    }, {
+                        icon: 'fas fa-project-diagram',
+                        label: 'Data Modeling'
+                    }, {
+                        icon: 'fas fa-filter',
+                        label: 'Power Query'
+                    }]
+                }, {
+                    icon: 'fas fa-chart-line',
+                    iconClass: 'green',
+                    title: 'Impact & Results',
+                    type: 'impact',
+                    metrics: [{
+                        number: 'Real-time',
+                        label: 'Monitoring'
+                    }, {
+                        number: '5+',
+                        label: 'KPIs Tracked'
+                    }, {
+                        number: '3',
+                        label: 'Data Sources'
+                    }, {
+                        number: 'Drill-down',
+                        label: 'Filtering'
+                    }]
+                }, {
+                    icon: 'fas fa-star',
+                    iconClass: 'yellow',
+                    title: 'Key Features',
+                    type: 'features',
+                    features: [{
+                        icon: 'fas fa-bed',
+                        title: 'Bed Occupancy',
+                        desc: 'Real-time monitoring across departments'
+                    }, {
+                        icon: 'fas fa-heartbeat',
+                        title: 'Readmission Analysis',
+                        desc: 'Track readmission rates to improve care'
+                    }, {
+                        icon: 'fas fa-filter',
+                        title: 'Cross-Report Filtering',
+                        desc: 'Click to filter entire dashboard'
+                    }, {
+                        icon: 'fas fa-calculator',
+                        title: 'DAX KPIs',
+                        desc: 'Dynamic measures updating in real-time'
+                    }]
+                }]
+            },
+            project2: {
+                title: 'Customer Behavior <span class="gradient-text">Analysis</span>',
+                techTags: ['Python', 'Pandas', 'Matplotlib', 'Seaborn', 'RFM Analysis', 'Clustering'],
+                sections: [{
+                    icon: 'fas fa-exclamation-triangle',
+                    iconClass: 'red',
+                    title: 'The Problem',
+                    content: `<p>E-commerce businesses collect thousands of transactions daily, but without analysis, this data remains underutilized.</p><div class="cs-highlight">Without customer segmentation, businesses can't personalize marketing — leading to wasted ad spend and missed retention opportunities.</div>`
+                }, {
+                    icon: 'fas fa-rocket',
+                    iconClass: 'green',
+                    title: 'The Solution',
+                    content: `<p>I conducted an <strong>end-to-end customer behavior analysis</strong> using Python:</p><ul><li><strong>Data Cleaning:</strong> Handled missing values, duplicates using Pandas</li><li><strong>RFM Analysis:</strong> Scored customers on Recency, Frequency, Monetary value</li><li><strong>Segmentation:</strong> Clustering for targeted marketing segments</li><li><strong>Visualization:</strong> Charts communicating churn risk and patterns</li></ul>`
+                }, {
+                    icon: 'fas fa-sitemap',
+                    iconClass: 'blue',
+                    title: 'Analysis Pipeline',
+                    type: 'architecture',
+                    nodes: ['Raw Data', 'Cleaning', 'EDA', 'RFM Scoring', 'Segmentation', 'Insights']
+                }, {
+                    icon: 'fas fa-layer-group',
+                    iconClass: 'blue',
+                    title: 'Tech Stack',
+                    type: 'techstack',
+                    items: [{
+                        icon: 'fab fa-python',
+                        label: 'Python'
+                    }, {
+                        icon: 'fas fa-table',
+                        label: 'Pandas'
+                    }, {
+                        icon: 'fas fa-chart-bar',
+                        label: 'Matplotlib'
+                    }, {
+                        icon: 'fas fa-palette',
+                        label: 'Seaborn'
+                    }, {
+                        icon: 'fas fa-users',
+                        label: 'RFM'
+                    }, {
+                        icon: 'fas fa-project-diagram',
+                        label: 'Clustering'
+                    }]
+                }, {
+                    icon: 'fas fa-chart-line',
+                    iconClass: 'green',
+                    title: 'Impact',
+                    type: 'impact',
+                    metrics: [{
+                        number: '5+',
+                        label: 'Segments'
+                    }, {
+                        number: 'RFM',
+                        label: 'Framework'
+                    }, {
+                        number: 'Churn',
+                        label: 'Risk Flagged'
+                    }, {
+                        number: 'Actionable',
+                        label: 'Recommendations'
+                    }]
+                }, {
+                    icon: 'fas fa-star',
+                    iconClass: 'yellow',
+                    title: 'Key Features',
+                    type: 'features',
+                    features: [{
+                        icon: 'fas fa-users',
+                        title: 'Segmentation',
+                        desc: 'Grouped customers by purchasing behavior'
+                    }, {
+                        icon: 'fas fa-exclamation-circle',
+                        title: 'Churn Prediction',
+                        desc: 'Identified at-risk customers'
+                    }, {
+                        icon: 'fas fa-crown',
+                        title: 'High-Value Profiling',
+                        desc: 'Pinpointed top-spending customers'
+                    }, {
+                        icon: 'fas fa-calendar-alt',
+                        title: 'Seasonal Patterns',
+                        desc: 'Discovered buying trends for campaign timing'
+                    }]
+                }]
+            },
+            project3: {
+                title: 'Sales Analysis <span class="gradient-text">Dashboard</span>',
+                techTags: ['Power BI', 'DAX', 'Data Modeling', 'Row-Level Security', 'Dynamic Filtering'],
+                sections: [{
+                    icon: 'fas fa-exclamation-triangle',
+                    iconClass: 'red',
+                    title: 'The Problem',
+                    content: `<p>Sales teams need visibility into performance, but a single static report doesn't work for everyone.</p><div class="cs-highlight">One-size-fits-all reports fail to serve diverse stakeholders — leading to delayed decisions and missed opportunities.</div>`
+                }, {
+                    icon: 'fas fa-rocket',
+                    iconClass: 'green',
+                    title: 'The Solution',
+                    content: `<p>I built a <strong>fully interactive Power BI sales dashboard</strong> with personalized views:</p><ul><li><strong>Revenue & Profit:</strong> Real-time tracking across products and regions</li><li><strong>Dynamic DAX KPIs:</strong> Auto-updating sales growth % and profit margin</li><li><strong>Row-Level Security:</strong> Role-based data access</li><li><strong>Dynamic Filtering:</strong> Interactive slicers with cross-filtering</li></ul>`
+                }, {
+                    icon: 'fas fa-sitemap',
+                    iconClass: 'blue',
+                    title: 'Architecture',
+                    type: 'architecture',
+                    nodes: ['Data Sources', 'Power Query', 'Star Schema', 'DAX', 'RLS', 'Dashboard']
+                }, {
+                    icon: 'fas fa-layer-group',
+                    iconClass: 'blue',
+                    title: 'Tech Stack',
+                    type: 'techstack',
+                    items: [{
+                        icon: 'fas fa-chart-pie',
+                        label: 'Power BI'
+                    }, {
+                        icon: 'fas fa-calculator',
+                        label: 'DAX'
+                    }, {
+                        icon: 'fas fa-lock',
+                        label: 'RLS'
+                    }, {
+                        icon: 'fas fa-project-diagram',
+                        label: 'Modeling'
+                    }, {
+                        icon: 'fas fa-filter',
+                        label: 'Filtering'
+                    }, {
+                        icon: 'fas fa-file-excel',
+                        label: 'Multi-Source'
+                    }]
+                }, {
+                    icon: 'fas fa-chart-line',
+                    iconClass: 'green',
+                    title: 'Impact',
+                    type: 'impact',
+                    metrics: [{
+                        number: 'Real-time',
+                        label: 'Monitoring'
+                    }, {
+                        number: 'RLS',
+                        label: 'Role-Based'
+                    }, {
+                        number: '6+',
+                        label: 'KPIs'
+                    }, {
+                        number: 'Multi',
+                        label: 'Regions'
+                    }]
+                }, {
+                    icon: 'fas fa-star',
+                    iconClass: 'yellow',
+                    title: 'Key Features',
+                    type: 'features',
+                    features: [{
+                        icon: 'fas fa-lock',
+                        title: 'Row-Level Security',
+                        desc: 'Role-based data access'
+                    }, {
+                        icon: 'fas fa-chart-line',
+                        title: 'Growth Tracking',
+                        desc: 'Automated growth calculations via DAX'
+                    }, {
+                        icon: 'fas fa-trophy',
+                        title: 'Top Performers',
+                        desc: 'Dynamic ranking by revenue and profit'
+                    }, {
+                        icon: 'fas fa-sliders-h',
+                        title: 'Interactive Filtering',
+                        desc: 'Cross-visual filtering with slicers'
+                    }]
+                }]
             }
-        `;
+        };
 
-    const fragmentShader = `
-            precision mediump float;
-            varying vec4 v_color;
-            
-            void main() {
-                float dist = length(gl_PointCoord - 0.5) * 2.0;
-                float alpha = 1.0 - smoothstep(0.3, 1.0, dist);
-                gl_FragColor = vec4(v_color.rgb, v_color.a * alpha);
-            }
-        `;
+        // ===== CASE STUDY MODAL =====
+        function openCaseStudy(projectId) {
+            const data = caseStudies[projectId];
+            if (!data) return;
+            document.getElementById('csTitle').innerHTML = data.title;
+            document.getElementById('csTechTags').innerHTML = data.techTags.map(t => `<span class="project-tech-tag">${t}</span>`).join('');
+            let html = '';
+            data.sections.forEach(s => {
+                        html += `<div class="cs-section"><div class="cs-section-header"><div class="cs-section-icon ${s.iconClass}"><i class="${s.icon}"></i></div><h3 class="cs-section-title">${s.title}</h3></div>`;
+                        if (s.type === 'architecture') {
+                            html += `<div class="cs-architecture-flow">`;
+                            s.nodes.forEach((n, i) => {
+                                html += `<span class="cs-arch-node">${n}</span>`;
+                                if (i < s.nodes.length - 1) html += `<span class="cs-arch-arrow"><i class="fas fa-arrow-right"></i></span>`;
+                            });
+                            html += `</div>`;
+                        } else if (s.type === 'techstack') {
+                            html += `<div class="cs-tech-grid">${s.items.map(i => `<div class="cs-tech-item"><i class="${i.icon}"></i> ${i.label}</div>`).join('')}</div>`;
+                } else if (s.type === 'impact') {
+                    html += `<div class="cs-impact-grid">${s.metrics.map(m => `<div class="cs-impact-card"><div class="cs-impact-number">${m.number}</div><div class="cs-impact-label">${m.label}</div></div>`).join('')}</div>`;
+                } else if (s.type === 'features') {
+                    html += `<div class="cs-features-grid">${s.features.map(f => `<div class="cs-feature-card"><i class="${f.icon}"></i><h4>${f.title}</h4><p>${f.desc}</p></div>`).join('')}</div>`;
+                } else {
+                    html += `<div class="cs-section-content">${s.content}</div>`;
+                }
+                html += `</div>`;
+            });
+            document.getElementById('csBody').innerHTML = html;
+            document.getElementById('caseStudyOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
 
-    const createShader = (type, source) => {
-      const shader = gl.createShader(type);
-      gl.shaderSource(shader, source);
-      gl.compileShader(shader);
-      return shader;
-    };
+        function closeCaseStudy() {
+            document.getElementById('caseStudyOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
 
-    const program = gl.createProgram();
-    gl.attachShader(program, createShader(gl.VERTEX_SHADER, vertexShader));
-    gl.attachShader(program, createShader(gl.FRAGMENT_SHADER, fragmentShader));
-    gl.linkProgram(program);
-    gl.useProgram(program);
+        document.getElementById('caseStudyOverlay').addEventListener('click', function (e) { if (e.target === this) closeCaseStudy(); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeCaseStudy(); });
 
-    // Position buffer
-    const posBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, posBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, pos, gl.STATIC_DRAW);
-    const aPosition = gl.getAttribLocation(program, "a_position");
-    gl.enableVertexAttribArray(aPosition);
-    gl.vertexAttribPointer(aPosition, 3, gl.FLOAT, false, 0, 0);
+        // ===== LOADING SCREEN =====
+        const loaderPercentage = document.getElementById('loaderPercentage');
+        let loadPercent = 0;
+        const loadInterval = setInterval(() => {
+            loadPercent += Math.random() * 15 + 5;
+            if (loadPercent >= 100) { loadPercent = 100; clearInterval(loadInterval); }
+            loaderPercentage.textContent = Math.floor(loadPercent) + '%';
+        }, 200);
 
-    // Color buffer
-    const colBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, colBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, col, gl.STATIC_DRAW);
-    const aColor = gl.getAttribLocation(program, "a_color");
-    gl.enableVertexAttribArray(aColor);
-    gl.vertexAttribPointer(aColor, 4, gl.FLOAT, false, 0, 0);
-
-    const uTime = gl.getUniformLocation(program, "u_time");
-    const uMouse = gl.getUniformLocation(program, "u_mouse");
-    const uResolution = gl.getUniformLocation(program, "u_resolution");
-
-    gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
-
-    let mouseX = W / 2;
-    let mouseY = H / 2;
-    let time = 0;
-
-    document.addEventListener("mousemove", (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
-
-    const render = () => {
-      time += 1;
-      gl.clearColor(0, 0, 0, 0);
-      gl.clear(gl.COLOR_BUFFER_BIT);
-
-      gl.uniform1f(uTime, time);
-      gl.uniform2f(uMouse, mouseX, mouseY);
-      gl.uniform2f(uResolution, W, H);
-
-      gl.drawArrays(gl.POINTS, 0, N);
-      requestAnimationFrame(render);
-    };
-
-    render();
-  }
-
-  fallback() {
-    const ctx = this.canvas.getContext("2d");
-    let W, H;
-    const stars = [];
-
-    const resize = () => {
-      W = this.canvas.width = window.innerWidth;
-      H = this.canvas.height = window.innerHeight;
-    };
-    resize();
-    window.addEventListener("resize", resize);
-
-    for (let i = 0; i < 150; i++) {
-      stars.push({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        r: Math.random() * 1.5 + 0.5,
-        alpha: Math.random() * 0.5 + 0.2,
-        speed: Math.random() * 0.05 + 0.02,
-        twinkleDir: 1,
-        twinkleSpeed: Math.random() * 0.005 + 0.002,
-      });
-    }
-
-    const render = () => {
-      ctx.clearRect(0, 0, W, H);
-
-      stars.forEach((star) => {
-        star.alpha += star.twinkleSpeed * star.twinkleDir;
-        if (star.alpha > 0.8 || star.alpha < 0.1) star.twinkleDir *= -1;
-
-        star.y += star.speed;
-        if (star.y > H) star.y = 0;
-
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(232, 180, 184, ${star.alpha})`;
-        ctx.fill();
-      });
-
-      requestAnimationFrame(render);
-    };
-
-    render();
-  }
-}
-
-// ── SHOOTING STARS ──
-class ShootingStars {
-  constructor() {
-    this.canvas = document.getElementById("shoot-canvas");
-    if (!this.canvas) return;
-
-    this.ctx = this.canvas.getContext("2d");
-    this.trails = [];
-    this.colors = [
-      "rgba(232, 180, 184,",
-      "rgba(168, 85, 247,",
-      "rgba(6, 182, 212,",
-      "rgba(255, 255, 255,",
-      "rgba(251, 113, 133,",
-    ];
-
-    this.init();
-  }
-
-  init() {
-    this.resize();
-    window.addEventListener("resize", () => this.resize());
-
-    setInterval(() => this.spawn(), 2500);
-    this.spawn();
-    this.render();
-  }
-
-  resize() {
-    this.W = this.canvas.width = this.canvas.offsetWidth;
-    this.H = this.canvas.height = this.canvas.offsetHeight;
-  }
-
-  spawn() {
-    const color = this.colors[Math.floor(Math.random() * this.colors.length)];
-    this.trails.push({
-      x: Math.random() * this.W * 0.7 + this.W * 0.1,
-      y: Math.random() * this.H * 0.3,
-      length: Math.random() * 100 + 50,
-      speed: Math.random() * 6 + 5,
-      angle: Math.PI / 4 + Math.random() * 0.4 - 0.2,
-      alpha: 1,
-      color,
-      tail: [],
-    });
-  }
-
-  render() {
-    this.ctx.clearRect(0, 0, this.W, this.H);
-
-    for (let i = this.trails.length - 1; i >= 0; i--) {
-      const star = this.trails[i];
-
-      star.x += Math.cos(star.angle) * star.speed;
-      star.y += Math.sin(star.angle) * star.speed;
-      star.alpha -= 0.015;
-
-      star.tail.push({ x: star.x, y: star.y, a: star.alpha });
-      if (star.tail.length > 30) star.tail.shift();
-
-      // Draw tail
-      for (let j = 0; j < star.tail.length; j++) {
-        const t = star.tail[j];
-        const fade = t.a * (j / star.tail.length);
-        this.ctx.beginPath();
-        this.ctx.arc(t.x, t.y, (j / star.tail.length) * 2, 0, Math.PI * 2);
-        this.ctx.fillStyle = star.color + Math.max(0, fade) + ")";
-        this.ctx.fill();
-      }
-
-      // Draw head glow
-      const gradient = this.ctx.createRadialGradient(
-        star.x,
-        star.y,
-        0,
-        star.x,
-        star.y,
-        8,
-      );
-      gradient.addColorStop(0, star.color + "1)");
-      gradient.addColorStop(1, star.color + "0)");
-      this.ctx.beginPath();
-      this.ctx.arc(star.x, star.y, 8, 0, Math.PI * 2);
-      this.ctx.fillStyle = gradient;
-      this.ctx.fill();
-
-      if (star.alpha <= 0 || star.x > this.W + 50 || star.y > this.H + 50) {
-        this.trails.splice(i, 1);
-      }
-    }
-
-    requestAnimationFrame(() => this.render());
-  }
-}
-
-// ── AURORA EFFECT ──
-class AuroraEffect {
-  constructor() {
-    this.canvas = document.getElementById("aurora-canvas");
-    if (!this.canvas) return;
-
-    this.ctx = this.canvas.getContext("2d");
-    this.time = 0;
-
-    this.init();
-  }
-
-  init() {
-    this.resize();
-    window.addEventListener("resize", () => this.resize());
-    this.render();
-  }
-
-  resize() {
-    this.W = this.canvas.width = window.innerWidth;
-    this.H = this.canvas.height = window.innerHeight;
-  }
-
-  render() {
-    this.time += 0.005;
-    this.ctx.clearRect(0, 0, this.W, this.H);
-
-    // Create aurora waves
-    for (let i = 0; i < 3; i++) {
-      this.ctx.beginPath();
-      this.ctx.moveTo(0, this.H);
-
-      for (let x = 0; x <= this.W; x += 5) {
-        const y =
-          this.H * 0.3 +
-          Math.sin(x * 0.003 + this.time + i) * 50 +
-          Math.sin(x * 0.007 + this.time * 1.5 + i) * 30 +
-          Math.sin(x * 0.001 + this.time * 0.5 + i) * 80;
-        this.ctx.lineTo(x, y);
-      }
-
-      this.ctx.lineTo(this.W, this.H);
-      this.ctx.closePath();
-
-      const gradient = this.ctx.createLinearGradient(0, 0, this.W, 0);
-      const alpha = 0.03 - i * 0.008;
-      gradient.addColorStop(0, `rgba(232, 180, 184, ${alpha})`);
-      gradient.addColorStop(0.5, `rgba(168, 85, 247, ${alpha})`);
-      gradient.addColorStop(1, `rgba(6, 182, 212, ${alpha})`);
-
-      this.ctx.fillStyle = gradient;
-      this.ctx.fill();
-    }
-
-    requestAnimationFrame(() => this.render());
-  }
-}
-
-// ── STAT COUNTER ANIMATION ──
-class StatCounter {
-  constructor() {
-    this.counters = document.querySelectorAll(".counter");
-    this.init();
-  }
-
-  init() {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            this.animateCounter(entry.target);
-          }
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                loadPercent = 100;
+                loaderPercentage.textContent = '100%';
+                setTimeout(() => document.getElementById('loader').classList.add('hidden'), 300);
+            }, 2200);
         });
-      },
-      { threshold: 0.5 },
-    );
 
-    this.counters.forEach((counter) => observer.observe(counter));
-  }
+        // ===== CUSTOM CURSOR =====
+        const customCursor = document.getElementById('customCursor');
+        const cursorDot = document.getElementById('cursorDot');
+        const cursorGlow = document.getElementById('cursorGlow');
+        let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
 
-  animateCounter(el) {
-    const target = parseInt(el.textContent);
-    if (isNaN(target)) return;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+            cursorGlow.style.left = mouseX + 'px';
+            cursorGlow.style.top = mouseY + 'px';
+        });
 
-    let current = 0;
-    const duration = 2000;
-    const start = performance.now();
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
+            customCursor.style.left = cursorX + 'px';
+            customCursor.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
 
-    const update = (now) => {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
+        // Hover effect on interactive elements
+        const hoverTargets = document.querySelectorAll('a, button, .btn, .project-card, .skill-tag, .social-link, .info-item, .highlight-card, .contact-method, .cert-card, .education-card, .nav-resume-btn, input, textarea');
+        hoverTargets.forEach(el => {
+            el.addEventListener('mouseenter', () => customCursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => customCursor.classList.remove('hover'));
+        });
 
-      // Easing function
-      const eased = 1 - Math.pow(1 - progress, 3);
-      current = Math.floor(eased * target);
+        document.addEventListener('mousedown', () => customCursor.classList.add('click'));
+        document.addEventListener('mouseup', () => customCursor.classList.remove('click'));
 
-      el.textContent = current;
+        // ===== PARTICLES =====
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
 
-      if (progress < 1) {
-        requestAnimationFrame(update);
-      } else {
-        el.textContent = target;
-      }
-    };
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
 
-    requestAnimationFrame(update);
-  }
-}
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.speedY = (Math.random() - 0.5) * 0.4;
+                this.opacity = Math.random() * 0.4 + 0.1;
+                this.color = Math.random() > 0.5 ? '0, 229, 255' : '191, 90, 242';
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
 
-// ── INITIALIZE EVERYTHING ──
-document.addEventListener("DOMContentLoaded", () => {
-  // Core features
-  new CustomCursor();
-  new MagneticEffect();
-  new ScrollProgress();
-  new Navigation();
-  new Typewriter();
-  new HeroName3D();
-  new ScrollReveal();
+        function initParticles() {
+            const count = Math.min(60, Math.floor((canvas.width * canvas.height) / 20000));
+            particles = [];
+            for (let i = 0; i < count; i++) particles.push(new Particle());
+        }
+        initParticles();
 
-  // Interactive features
-  new ProjectCardTilt();
-  new SkillPillGlow();
-  new StatCounter();
+        function connectParticles() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 130) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(0, 229, 255, ${0.06 * (1 - dist / 130)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
 
-  // Background effects
-  new VideoBackground();
-  new WebGLGalaxy();
-  new ShootingStars();
-  new AuroraEffect();
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            connectParticles();
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
 
-  // Add SVG gradients for stat rings
-  const svgDefs = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svgDefs.innerHTML = `
-        <defs>
-            <linearGradient id="statGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#e8b4b8"/>
-                <stop offset="50%" style="stop-color:#a855f7"/>
-                <stop offset="100%" style="stop-color:#06b6d4"/>
-            </linearGradient>
-        </defs>
-    `;
-  svgDefs.style.position = "absolute";
-  svgDefs.style.width = "0";
-  svgDefs.style.height = "0";
-  document.body.appendChild(svgDefs);
+        // ===== NAVBAR SCROLL =====
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50));
 
-  // Update stat ring strokes to use gradient
-  document.querySelectorAll(".stat-ring-fill").forEach((ring) => {
-    ring.style.stroke = "url(#statGradient)";
-  });
+        // ===== MOBILE MENU =====
+        const mobileToggle = document.getElementById('mobileToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileOverlay = document.getElementById('mobileOverlay');
 
-  console.log("🚀 Portfolio initialized successfully!");
-});
+        function toggleMobileMenu() {
+            mobileToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('open');
+            mobileOverlay.classList.toggle('open');
+        }
+        mobileToggle.addEventListener('click', toggleMobileMenu);
+        mobileOverlay.addEventListener('click', toggleMobileMenu);
+        mobileMenu.querySelectorAll('a').forEach(l => l.addEventListener('click', () => { if (mobileMenu.classList.contains('open')) toggleMobileMenu(); }));
 
-// ── SMOOTH SCROLL POLYFILL FOR SAFARI ──
-if (!("scrollBehavior" in document.documentElement.style)) {
-  import("https://unpkg.com/smoothscroll-polyfill@0.4.4/dist/smoothscroll.min.js").then(
-    () => (window.__forceSmoothScrollPolyfill__ = true),
-  );
-}
+        // ===== TYPING EFFECT =====
+        const roles = ['Data Analyst', 'SQL Developer', 'Power BI Developer', 'Python Analyst', 'Dashboard Builder', 'Data Storyteller'];
+        let roleIndex = 0, charIndex = 0, isDeleting = false;
+        const typedText = document.getElementById('typedText');
+
+        function typeEffect() {
+            const current = roles[roleIndex];
+            typedText.textContent = isDeleting ? current.substring(0, --charIndex) : current.substring(0, ++charIndex);
+            let speed = isDeleting ? 35 : 75;
+            if (!isDeleting && charIndex === current.length) { speed = 2000; isDeleting = true; }
+            else if (isDeleting && charIndex === 0) { isDeleting = false; roleIndex = (roleIndex + 1) % roles.length; speed = 500; }
+            setTimeout(typeEffect, speed);
+        }
+        setTimeout(typeEffect, 2500);
+
+        // ===== SCROLL ANIMATIONS =====
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+        // ===== COUNTER ANIMATION =====
+        function animateCounters() {
+            document.querySelectorAll('.stat-number[data-count]').forEach(el => {
+                const target = parseInt(el.getAttribute('data-count'));
+                const duration = 1500, start = performance.now();
+                function update(t) {
+                    const p = Math.min((t - start) / duration, 1);
+                    el.textContent = Math.floor((1 - Math.pow(1 - p, 3)) * target) + '+';
+                    if (p < 1) requestAnimationFrame(update);
+                }
+                requestAnimationFrame(update);
+            });
+        }
+        const heroObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) { animateCounters(); heroObserver.disconnect(); }
+        }, { threshold: 0.3 });
+        const heroStats = document.querySelector('.hero-stats');
+        if (heroStats) heroObserver.observe(heroStats);
+
+        // ===== SCROLL TO TOP =====
+        const scrollTopBtn = document.getElementById('scrollTop');
+        window.addEventListener('scroll', () => scrollTopBtn.classList.toggle('visible', window.scrollY > 400));
+        scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        // ===== SMOOTH SCROLL =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // ===== FORM SUBMIT =====
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+            btn.style.background = 'linear-gradient(135deg, #64ffda, #00e5ff)';
+            setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; e.target.reset(); }, 3000);
+        }
+
+        // ===== ACTIVE NAV ON SCROLL =====
+        const sections = document.querySelectorAll('section[id]');
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY + 100;
+            sections.forEach(section => {
+                const top = section.offsetTop, height = section.offsetHeight, id = section.getAttribute('id');
+                const navLink = document.querySelector(`.nav-links a[href="#${id}"]`);
+                if (navLink) {
+                    if (scrollY >= top && scrollY < top + height) {
+                        document.querySelectorAll('.nav-links a').forEach(a => a.style.color = '');
+                        navLink.style.color = 'var(--accent)';
+                    }
+                }
+            });
+        });
+
+        // ===== 3D TILT ON PROJECT CARDS =====
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', function (e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 15;
+                const rotateY = (centerX - x) / 15;
+                this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+            });
+            card.addEventListener('mouseleave', function () {
+                this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+            });
+        });
+
+        // ===== MAGNETIC BUTTONS =====
+        document.querySelectorAll('.magnetic-btn').forEach(btn => {
+            btn.addEventListener('mousemove', function (e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                this.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+            });
+            btn.addEventListener('mouseleave', function () {
+                this.style.transform = '';
+            });
+        });
